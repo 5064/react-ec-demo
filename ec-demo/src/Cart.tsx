@@ -1,27 +1,33 @@
 import React from 'react';
-// import './Products.css';
+import { CartState } from './type/type'
 
-export class Cart extends React.Component {
-prop = {selected: [0]};
-  sum(){
-    return 0
+export class Cart extends React.Component<any, CartState> {
+  constructor(props: any) {
+    super(props)
+    this.state = { selected: [] }
   }
-  render(){
+  sum() {
+    return this.state.selected.map
+  }
+  renderItems() {
+    return (<p></p>)
+  }
+  render() {
     return (
-    <div className="box is-fullwidth is-size-5">
-      <div className="card-header">
-        <div className="card-header-title">現在のカート</div>
-      </div>
-      <div className="card-content">
-        <span>item#1</span>
-        <hr/>
-        <div className="is-flex is-justify-content-space-between ">
-          <span>合計: </span>
-          <span className="">￥{this.sum()}</span>
+      <div className="box is-fullwidth is-size-5">
+        <div className="card-header">
+          <div className="card-header-title">現在のカート</div>
         </div>
+        <div className="card-content">
+          <span>{this.state.selected.length}</span>
+          <hr />
+          <div className="is-flex is-justify-content-space-between ">
+            <span>合計: </span>
+            <span className="">￥{this.sum()}</span>
+          </div>
+        </div>
+        <button className="button is-medium is-fullwidth is-primary" disabled={this.state.selected.length === 0}>購 入</button>
       </div>
-      <button className="button is-medium is-fullwidth is-primary">購 入</button>
-    </div>
-  );
+    );
   }
 }

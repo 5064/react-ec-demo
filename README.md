@@ -1,2 +1,2 @@
 # react-ec-demo
-Try React
+Try (vanilla)React
