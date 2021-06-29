@@ -1,5 +1,7 @@
+import { Product } from "../type/type";
+
 // API response mock
-export const PRODUCT_LIST = [
+export const PRODUCT_LIST: Product[] = [
   {
     id: 1,
     name: "商品1",

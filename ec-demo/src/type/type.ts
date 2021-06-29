@@ -4,6 +4,10 @@ export type Product = {
     price: number
 }
 
+export interface ProductListProp {
+    items: Product[]
+}
+
 export interface CartState {
     selected: Product[]
 }

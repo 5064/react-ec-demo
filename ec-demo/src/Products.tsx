@@ -1,18 +1,25 @@
 import React from 'react';
 // import './Products.css';
 
-import {Product} from './Product'
+import { Product } from './Product'
+import { ProductListProp } from './type/type';
 
-export class Products extends React.Component {
-  render(){
+export class Products extends React.Component<ProductListProp> {
+  constructor(props: ProductListProp) {
+    super(props)
+
+  }
+
+  render() {
     return (
-    <div>
-      <main>
-      <div >
-        <Product />
+      <div>
+        <main>
+          <div >
+            {this.props.items[0].name}
+            <Product />
+          </div>
+        </main>
       </div>
-      </main>
-    </div>
-  );
+    );
   }
 }
