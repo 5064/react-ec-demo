@@ -9,16 +9,15 @@ export class Products extends React.Component<ProductListProp> {
     super(props)
 
   }
+  renderProducts() {
+    const listItems = this.props.items.map((item) => <Product key={item.id} id={item.id} name={item.name} price={item.price} />);
+    return listItems
+  }
 
   render() {
     return (
-      <div>
-        <main>
-          <div >
-            {this.props.items[0].name}
-            <Product />
-          </div>
-        </main>
+      <div className="columns">
+        {this.renderProducts()}
       </div>
     );
   }
