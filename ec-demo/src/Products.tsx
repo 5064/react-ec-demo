@@ -1,5 +1,5 @@
 import React from 'react';
-// import './Products.css';
+import './Products.css';
 
 import { Product } from './Product'
 import { ProductListProp } from './type/type';
@@ -16,7 +16,7 @@ export class Products extends React.Component<ProductListProp> {
 
   render() {
     return (
-      <div className="columns">
+      <div className="Products-wrapper">
         {this.renderProducts()}
       </div>
     );

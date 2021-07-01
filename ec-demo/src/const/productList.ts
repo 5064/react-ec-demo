@@ -1,6 +1,6 @@
 import { Product } from "../type/type";
 
-// API response mock
+// API response dummy data
 export const PRODUCT_LIST: Product[] = [
   {
     id: 1,
@@ -46,5 +46,20 @@ export const PRODUCT_LIST: Product[] = [
     id: 9,
     name: "商品9",
     price: 900,
+  },
+  {
+    id: 10,
+    name: "商品10",
+    price: 1000,
+  },
+  {
+    id: 11,
+    name: "商品11",
+    price: 1000,
+  },
+  {
+    id: 12,
+    name: "商品12",
+    price: 1000,
   },
 ];
