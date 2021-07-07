@@ -2,7 +2,7 @@ import React from 'react';
 import "./Cart.css"
 import { CartState } from './type/type'
 
-export class Cart extends React.Component<any, CartState> {
+export class CartComponent extends React.Component<any, CartState> {
   constructor(props: any) {
     super(props)
     this.state = { selected: [] }

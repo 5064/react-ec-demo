@@ -4,10 +4,21 @@ export type Product = {
     price: number
 }
 
-export interface ProductListProp {
+export type ProductListProp = {
     items: Product[]
+    incrementCount: Function
 }
 
-export interface CartState {
+// app root State
+export type AppState = {
+    cart: CartState,
+    productsCount: ProductCountState[]
+}
+
+export type ProductCountState = {
+    count: number
+}
+
+export type CartState = {
     selected: Product[]
 }

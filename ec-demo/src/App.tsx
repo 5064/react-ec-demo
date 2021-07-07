@@ -1,18 +1,45 @@
 import React from 'react';
 import './App.css';
-import { Products } from './Products';
-import { CartState, Product, ProductListProp } from './type/type'
-import { Cart } from './Cart';
+import { AppState, Product, ProductListProp } from './type/type'
+import { CartComponent } from './CartComponent';
+import { ProductComponent } from './ProductComponent';
 import { PRODUCT_LIST } from "./const/productList";
 
-class App extends React.Component<any, CartState> {
+class App extends React.Component<any, AppState> {
   private items: Product[] = []
+  private readonly MAX_COUNT = 10
 
   constructor(props: any) {
     super(props)
-    this.state = { selected: [] }
     // API response mocking
     this.items = PRODUCT_LIST
+    // init state
+    const pc = this.items.map((item) => { return { id: item.id, count: 0 } })
+    this.state = { productsCount: pc, cart: { selected: [] } }
+    console.log(this.state)
+  }
+
+  incrementCount(i: number) {
+    if ((this.state.productsCount[i].count + 1) > this.MAX_COUNT) {
+      return
+    }
+    this.setState({ productsCount: [{ count: this.state.productsCount[i].count + 1 }] })
+  }
+
+  decrementCount(i: number) {
+    if ((this.state.productsCount[i].count - 1) < 0) {
+      return
+    }
+    this.setState({ productsCount: [{ count: this.state.productsCount[i].count - 1 }] })
+  }
+
+  renderProducts() {
+    const listItems = this.items.map((item: Product, i: number) => <ProductComponent key={i} id={item.id} name={item.name} price={item.price} count={this.state.productsCount[i].count} MAX_COUNT={this.MAX_COUNT} />);
+    return (
+      <div className="Products-wrapper">
+        {listItems}
+      </div>
+    );
   }
 
   render() {
@@ -24,11 +51,11 @@ class App extends React.Component<any, CartState> {
         <main className="columns m-2">
           <div className="column is-9">
             <div>
-              <Products items={this.items} />
+              {this.renderProducts()}
             </div>
           </div>
           <div className="column">
-            <Cart selected={this.state.selected} />
+            <CartComponent selected={this.state.cart.selected} />
           </div>
         </main>
       </div>
