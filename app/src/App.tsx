@@ -7,34 +7,37 @@ import { PRODUCT_LIST } from "./const/productList";
 
 class App extends React.Component<any, AppState> {
   private items: Product[] = []
-  private readonly MAX_COUNT = 10
+  private readonly MAX_QUANTITY = 10
 
   constructor(props: any) {
     super(props)
     // API response mocking
     this.items = PRODUCT_LIST
     // init state
-    const pc = this.items.map((item) => { return { id: item.id, count: 0 } })
-    this.state = { productsCount: pc, cart: { selected: [] } }
-    console.log(this.state)
+    const pc = this.items.map((item) => { return { id: item.id, quantity: 0 } })
+    this.state = { productsQuantity: pc, cart: { selected: [] } }
   }
 
-  incrementCount(i: number) {
-    if ((this.state.productsCount[i].count + 1) > this.MAX_COUNT) {
+  incrementQuantity(id: number) {
+    const target = this.state.productsQuantity.filter(obj => obj.id === id)
+    if ((target[0].quantity + 1) > this.MAX_QUANTITY) {
       return
     }
-    this.setState({ productsCount: [{ count: this.state.productsCount[i].count + 1 }] })
+    const pq = this.state.productsQuantity.map(obj => obj.id === id ? Object.assign(obj, { quantity: obj.quantity + 1 }) : obj)
+    this.setState(prevState => Object.assign(prevState, { productQuantity: pq }))
   }
 
-  decrementCount(i: number) {
-    if ((this.state.productsCount[i].count - 1) < 0) {
+  decrementQuantity(id: number) {
+    const target = this.state.productsQuantity.filter(obj => obj.id === id)
+    if ((target[0].quantity + 1) < 0) {
       return
     }
-    this.setState({ productsCount: [{ count: this.state.productsCount[i].count - 1 }] })
+    const pq = this.state.productsQuantity.map(obj => obj.id === id ? Object.assign(obj, { quantity: obj.quantity - 1 }) : obj)
+    this.setState(prevState => Object.assign(prevState, { productQuantity: pq }))
   }
 
   renderProducts() {
-    const listItems = this.items.map((item: Product, i: number) => <ProductComponent key={i} id={item.id} name={item.name} price={item.price} count={this.state.productsCount[i].count} MAX_COUNT={this.MAX_COUNT} />);
+    const listItems = this.items.map((item: Product, i: number) => <ProductComponent key={i} id={item.id} name={item.name} price={item.price} quantity={this.state.productsQuantity.filter(obj => obj.id === item.id)[0].quantity} MAX_QUANTITY={this.MAX_QUANTITY} incrementQuantity={() => this.incrementQuantity(item.id)} decrementQuantity={() => this.decrementQuantity(item.id)} />);
     return (
       <div className="Products-wrapper">
         {listItems}

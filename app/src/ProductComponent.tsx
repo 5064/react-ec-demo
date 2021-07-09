@@ -26,21 +26,21 @@ export class ProductComponent extends React.Component<any, AppState> {
         </div>
         <div className="field has-addons">
           <p className="control">
-            <button className="button is-info" disabled={this.props.count === 0}>
+            <button className="button is-info" disabled={this.props.quantity === 0} onClick={this.props.decrementQuantity}>
               <span className="material-icons is-size-5">remove</span>
             </button>
           </p>
           <p className="control">
-            <input className="input Product-input" type="text" inputMode="numeric" pattern="\d*" min="0" defaultValue={this.props.count} />
+            <input className="input Product-input" type="text" inputMode="numeric" pattern="\d*" min="0" value={this.props.quantity} />
           </p>
           <p className="control">
-            <button className="button is-info" disabled={this.props.count === this.props.MAX_COUNT}>
+            <button className="button is-info" disabled={this.props.quantity === this.props.MAX_QUANTITY} onClick={this.props.incrementQuantity}>
               <span className="material-icons is-size-5">add</span>
             </button>
           </p>
         </div>
         <div>
-          <button className="button is-link" disabled={this.props.count === 0}>
+          <button className="button is-link" disabled={this.props.quantity === 0}>
             <span className="icon-text">カートに追加
               <span className="material-icons mx-1">add_shopping_cart</span>
             </span>

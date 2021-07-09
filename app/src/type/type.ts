@@ -6,17 +6,18 @@ export type Product = {
 
 export type ProductListProp = {
     items: Product[]
-    incrementCount: Function
+    incrementQuantity: Function
 }
 
 // app root State
 export type AppState = {
     cart: CartState,
-    productsCount: ProductCountState[]
+    productsQuantity: ProductQuantityState[]
 }
 
-export type ProductCountState = {
-    count: number
+export type ProductQuantityState = {
+    id: number
+    quantity: number
 }
 
 export type CartState = {
