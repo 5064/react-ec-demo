@@ -4,6 +4,7 @@ import { AppState, Product, ProductListProp } from './type/type'
 import { CartComponent } from './CartComponent';
 import { ProductComponent } from './ProductComponent';
 import { PRODUCT_LIST } from "./const/productList";
+import { comma } from "./const/util";
 
 class App extends React.Component<any, AppState> {
   private items: Product[] = []
@@ -24,7 +25,7 @@ class App extends React.Component<any, AppState> {
       return
     }
     const pq = this.state.productsQuantity.map(obj => obj.id === id ? Object.assign(obj, { quantity: obj.quantity + 1 }) : obj)
-    this.setState(prevState => Object.assign(prevState, { productQuantity: pq }))
+    this.setState(prevState => Object.assign(prevState, { productsQuantity: pq }))
   }
 
   decrementQuantity(id: number) {
@@ -33,11 +34,42 @@ class App extends React.Component<any, AppState> {
       return
     }
     const pq = this.state.productsQuantity.map(obj => obj.id === id ? Object.assign(obj, { quantity: obj.quantity - 1 }) : obj)
-    this.setState(prevState => Object.assign(prevState, { productQuantity: pq }))
+    this.setState(prevState => Object.assign(prevState, { productsQuantity: pq }))
+  }
+
+  resetQuantity(id: number) {
+    const pq = this.state.productsQuantity.map(obj => obj.id === id ? Object.assign(obj, { quantity: 0 }) : obj)
+    this.setState(prevState => Object.assign(prevState, { productsQuantity: pq }))
+  }
+
+  addToCart(id: number) {
+    // get product quantity
+    const targetQ: number = this.state.productsQuantity.filter(obj => obj.id === id)[0].quantity
+    // update cart state
+    const target: Product = this.items.filter(item => item.id === id)[0]
+    Object.assign(target, { quantity: targetQ })
+
+    const updated = this.state.cart.selected.filter(obj => obj.id !== id)
+    updated.push(target)
+    this.setState(prevState => Object.assign(prevState, { cart: { selected: updated } }))
+    // reset product quantity
+    this.resetQuantity(id);
   }
 
   renderProducts() {
-    const listItems = this.items.map((item: Product, i: number) => <ProductComponent key={i} id={item.id} name={item.name} price={item.price} quantity={this.state.productsQuantity.filter(obj => obj.id === item.id)[0].quantity} MAX_QUANTITY={this.MAX_QUANTITY} incrementQuantity={() => this.incrementQuantity(item.id)} decrementQuantity={() => this.decrementQuantity(item.id)} />);
+    const listItems = this.items.map((item: Product, i: number) =>
+      <ProductComponent
+        key={i}
+        id={item.id}
+        name={item.name}
+        price={comma(item.price)}
+        quantity={this.state.productsQuantity.filter(obj => obj.id === item.id)[0].quantity}
+        MAX_QUANTITY={this.MAX_QUANTITY}
+        incrementQuantity={() => this.incrementQuantity(item.id)}
+        decrementQuantity={() => this.decrementQuantity(item.id)}
+        addToCart={() => this.addToCart(item.id)}
+      />
+    );
     return (
       <div className="Products-wrapper">
         {listItems}

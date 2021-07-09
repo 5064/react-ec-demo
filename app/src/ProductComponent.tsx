@@ -40,7 +40,7 @@ export class ProductComponent extends React.Component<any, AppState> {
           </p>
         </div>
         <div>
-          <button className="button is-link" disabled={this.props.quantity === 0}>
+          <button className="button is-link" disabled={this.props.quantity === 0} onClick={this.props.addToCart}>
             <span className="icon-text">カートに追加
               <span className="material-icons mx-1">add_shopping_cart</span>
             </span>

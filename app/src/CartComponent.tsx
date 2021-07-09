@@ -1,17 +1,33 @@
 import React from 'react';
 import "./Cart.css"
-import { CartState } from './type/type'
+import { comma } from './const/util';
+import { AppState, Product } from './type/type'
 
-export class CartComponent extends React.Component<any, CartState> {
+export class CartComponent extends React.Component<any, AppState> {
   constructor(props: any) {
     super(props)
-    this.state = { selected: [] }
   }
   sum() {
-    return this.state.selected.map
+    return this.props.selected.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0)
   }
-  renderItems() {
-    return (<p></p>)
+  purchase() {
+    return;
+  }
+  renderSelected() {
+    const selected = this.props.selected.map((item: any) =>
+      <div className="is-flex is-justify-content-space-between">
+        <div className="Cart-grid-wrapper">
+          <span>{item.name}</span>
+          <span className="is-size-6">数量: {item.quantity}</span>
+        </div>
+        <span className="">￥{comma(item.quantity * item.price)}</span>
+      </div>
+    )
+    return (
+      <div >
+        {selected}
+      </div>
+    );
   }
   render() {
     return (
@@ -21,14 +37,14 @@ export class CartComponent extends React.Component<any, CartState> {
             <div className="card-header-title">現在のカート</div>
           </div>
           <div className="card-content">
-            <span>{this.state.selected.length}</span>
+            <span>{this.renderSelected()}</span>
             <hr />
-            <div className="is-flex is-justify-content-space-between ">
+            <div className="is-flex is-justify-content-space-between">
               <span>合計: </span>
-              <span className="">￥{this.sum()}</span>
+              <span className="">￥{comma(this.sum())}</span>
             </div>
           </div>
-          <button className="button is-medium is-fullwidth is-primary" disabled={this.state.selected.length === 0}>購 入</button>
+          <button className="button is-medium is-fullwidth is-primary" disabled={this.props.selected.length === 0} onClick={() => this.purchase()}>購 入</button>
         </div>
       </div>
     );

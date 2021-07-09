@@ -8,3 +8,9 @@
   width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
   width: fill-available;
 }
+
+.Cart-grid-wrapper {
+  display: grid;
+  grid-template-columns: 2 1fr;
+  width: 30%;
+}
