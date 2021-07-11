@@ -1,16 +1,24 @@
 .Cart-is-fixed {
-  position: fixed
+  position: fixed;
 }
 
 .Cart-width-available {
-  width: 25%;
-  width: -moz-available;          /* WebKit-based browsers will ignore this. */
-  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-  width: fill-available;
+  width: inherit;
 }
 
-.Cart-grid-wrapper {
+.CartItem-grid-wrapper {
   display: grid;
-  grid-template-columns: 2 1fr;
-  width: 30%;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 30px 64px 1fr;
+}
+
+.CartItem-remove-button {
+  grid-row: 1 / 3;
+  align-self: center;
+  text-align: center;
+}
+
+.CartItem-thumbnail {
+  grid-row: 1 / 3;
+  align-self: center;
 }

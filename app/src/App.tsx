@@ -56,18 +56,31 @@ class App extends React.Component<any, AppState> {
     this.resetQuantity(id);
   }
 
+  removeFromCart(id: number) {
+    const updated = this.state.cart.selected.filter(obj => obj.id !== id)
+    this.setState(prevState => Object.assign(prevState, { cart: { selected: updated } }))
+    console.log(id)
+  }
+
+  isItemInCart(id: number):boolean {
+    return new Set(this.state.cart.selected.map(item=>item.id)).has(id)
+  }
+
+  buildImgSrcPath(imgSrc: string):string {
+    return `./${imgSrc}`
+  }
+
   renderProducts() {
-    const listItems = this.items.map((item: Product, i: number) =>
+    const listItems = this.items.map((item: Product) =>
       <ProductComponent
-        key={i}
-        id={item.id}
-        name={item.name}
-        price={comma(item.price)}
+        key={item.id}
+        item={item}
         quantity={this.state.productsQuantity.filter(obj => obj.id === item.id)[0].quantity}
         MAX_QUANTITY={this.MAX_QUANTITY}
         incrementQuantity={() => this.incrementQuantity(item.id)}
         decrementQuantity={() => this.decrementQuantity(item.id)}
         addToCart={() => this.addToCart(item.id)}
+        isItemInCart={() => this.isItemInCart(item.id)}
       />
     );
     return (
@@ -80,8 +93,8 @@ class App extends React.Component<any, AppState> {
   render() {
     return (
       <div>
-        <header className="block title is-1 has-background-light is-flex is-align-items-center">
-          <span className="ml-2">EC site</span><span className="material-icons is-clickable is-size-3 is-justify-content-flex-end ml-auto mr-2">account_circle</span>
+        <header className="block has-background-light is-flex is-align-items-center">
+          <span className="ml-2 is-size-1">EC site</span><span className="material-icons is-clickable is-size-2 is-justify-content-flex-end ml-auto mr-2">account_circle</span>
         </header>
         <main className="columns m-2">
           <div className="column is-9">
@@ -89,8 +102,8 @@ class App extends React.Component<any, AppState> {
               {this.renderProducts()}
             </div>
           </div>
-          <div className="column">
-            <CartComponent selected={this.state.cart.selected} />
+          <div className="column is-3">
+              <CartComponent selected={this.state.cart.selected} removeFromCart={(id:number)=>this.removeFromCart(id)}/>
           </div>
         </main>
       </div>
