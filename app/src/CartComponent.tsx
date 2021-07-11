@@ -2,13 +2,13 @@ import React from 'react';
 import "./Cart.css"
 import { CartItemComponent } from './CartItemComponent';
 import { comma } from './const/util';
-import { AppState, Product } from './type/type'
+import { AppState } from './type/type'
 
 export class CartComponent extends React.Component<any, AppState> {
   constructor(props: any) {
     super(props)
   }
-  showSum():string {
+  showSum(): string {
     const sum = this.props.selected.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0)
     return sum > 0 ? `￥${comma(sum)}` : "---"
   }
@@ -18,19 +18,24 @@ export class CartComponent extends React.Component<any, AppState> {
   renderItems() {
     if (this.props.selected.length === 0) {  // when cart is empty
       return (
-        <span className="has-text-grey">
+        <span className="has-text-grey is-size-6">
           お客様のカートに商品はありません。
         </span>
       )
     } else {
       const items = this.props.selected.map((item: any) =>
-        <CartItemComponent key={item.id} item={item} removeFromCart={()=>this.props.removeFromCart(item.id)}/>
+        <CartItemComponent
+          key={item.id}
+          item={item}
+          removeFromCart={() => this.props.removeFromCart(item.id)}
+          imgSrc={() => this.props.imgSrc(item.imgFileName)}
+        />
       )
-    return (
-      <div >
-        {items}
-      </div>
-    );
+      return (
+        <div >
+          {items}
+        </div>
+      );
     }
   }
   render() {
@@ -48,7 +53,7 @@ export class CartComponent extends React.Component<any, AppState> {
               <span className="is-size-3">{this.showSum()}</span>
             </div>
           </div>
-          <button className="button is-medium is-fullwidth is-primary" disabled={this.props.selected.length === 0} onClick={() => this.purchase()}>購 入</button>
+          <button className="button is-medium is-fullwidth is-primary" disabled={this.props.selected.length === 0} onClick={() => this.purchase()}>購入手続きへ</button>
         </div>
       </div>
     );

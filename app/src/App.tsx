@@ -1,10 +1,13 @@
 import React from 'react';
 import './App.css';
-import { AppState, Product, ProductListProp } from './type/type'
+import { AppState, Product, CartState } from './type/type'
 import { CartComponent } from './CartComponent';
 import { ProductComponent } from './ProductComponent';
 import { PRODUCT_LIST } from "./const/productList";
-import { comma } from "./const/util";
+import logoAngular from "./assets/logo_angular.svg";
+import logoReact from "./assets/logo_react.svg";
+import logoElm from "./assets/logo_elm.svg";
+import noImage from "./assets/no_image.png";
 
 class App extends React.Component<any, AppState> {
   private items: Product[] = []
@@ -37,6 +40,15 @@ class App extends React.Component<any, AppState> {
     this.setState(prevState => Object.assign(prevState, { productsQuantity: pq }))
   }
 
+  handleInputChange(id: number) {
+    // const target = this.state.productsQuantity.filter(obj => obj.id === id)
+    // if ((target[0].quantity + 1) < 0) {
+    //   return
+    // }
+    // const pq = this.state.productsQuantity.map(obj => obj.id === id ? Object.assign(obj, { quantity: obj.quantity - 1 }) : obj)
+    // this.setState(prevState => Object.assign(prevState, { productsQuantity: pq }))
+  }
+
   resetQuantity(id: number) {
     const pq = this.state.productsQuantity.map(obj => obj.id === id ? Object.assign(obj, { quantity: 0 }) : obj)
     this.setState(prevState => Object.assign(prevState, { productsQuantity: pq }))
@@ -62,12 +74,25 @@ class App extends React.Component<any, AppState> {
     console.log(id)
   }
 
-  isItemInCart(id: number):boolean {
-    return new Set(this.state.cart.selected.map(item=>item.id)).has(id)
+  isItemInCart(id: number): boolean {
+    return new Set(this.state.cart.selected.map(item => item.id)).has(id)
   }
 
-  buildImgSrcPath(imgSrc: string):string {
-    return `./${imgSrc}`
+  imgSrc(imgFileName: string | undefined): string {
+    switch (imgFileName) {
+      case 'logo_angular.svg':
+        return logoAngular
+        break;
+      case 'logo_react.svg':
+        return logoReact
+        break;
+      case 'logo_elm.svg':
+        return logoElm
+        break;
+      default:
+        return noImage
+        break;
+    }
   }
 
   renderProducts() {
@@ -79,8 +104,10 @@ class App extends React.Component<any, AppState> {
         MAX_QUANTITY={this.MAX_QUANTITY}
         incrementQuantity={() => this.incrementQuantity(item.id)}
         decrementQuantity={() => this.decrementQuantity(item.id)}
+        handleInputChange={() => this.handleInputChange(item.id)}
         addToCart={() => this.addToCart(item.id)}
         isItemInCart={() => this.isItemInCart(item.id)}
+        imgSrc={() => this.imgSrc(item.imgFileName)}
       />
     );
     return (
@@ -103,7 +130,11 @@ class App extends React.Component<any, AppState> {
             </div>
           </div>
           <div className="column is-3">
-              <CartComponent selected={this.state.cart.selected} removeFromCart={(id:number)=>this.removeFromCart(id)}/>
+            <CartComponent
+              selected={this.state.cart.selected}
+              removeFromCart={(id: number) => this.removeFromCart(id)}
+              imgSrc={(imgFileName: string | undefined) => this.imgSrc(imgFileName)}
+            />
           </div>
         </main>
       </div>

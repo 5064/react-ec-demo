@@ -2,7 +2,7 @@ export type Product = {
   id: number;
   name: string;
   price: number;
-  imgSrc?: string;
+  imgFileName?: string;
 };
 
 export type ProductListProp = {

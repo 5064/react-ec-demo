@@ -1,6 +1,4 @@
 import React from 'react';
-import Alogo from './assets/angular_logo.svg'
-import Rlogo from './assets/logo_react.svg'
 
 import { AppState } from './type/type';
 
@@ -29,7 +27,7 @@ export class ProductComponent extends React.Component<any, AppState> {
     return (
       <div className="card p-2 mx-2 mb-2">
         <figure className="image is-4by3 has-background-info-light">
-          <img src={this.props.item.imgSrc} />
+          <img src={this.props.imgSrc()} className="Cart-object-fit" />
         </figure>
         <div className="card-content">
           <div className="has-text-weight-semibold is-size-5">
@@ -47,7 +45,7 @@ export class ProductComponent extends React.Component<any, AppState> {
               </button>
             </p>
             <p className="control">
-              <input className="input Product-input" type="text" inputMode="numeric" pattern="\d*" min="0" value={this.props.quantity} />
+              <input className="input Product-input" type="text" inputMode="numeric" pattern="\d*" min="0" value={this.props.quantity} onFocus={this.props.handleInputChange} />
             </p>
             <p className="control">
               <button className="button is-info" disabled={this.props.quantity === this.props.MAX_QUANTITY} onClick={this.props.incrementQuantity}>
